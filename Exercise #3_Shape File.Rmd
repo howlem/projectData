@@ -1,0 +1,201 @@
+---
+title: "Final Project_Melissa Howlett"
+date: "February 1, 2017"
+---
+
+STEP 1: get data and confirm it's in the right format
+
+```{r}
+
+#get data
+faostat=read.csv("https://github.com/howlem/projectData/raw/master/Production_Crops_E_All_Data.csv",stringsAsFactors = F)
+
+#check is data frame
+is.data.frame(faostat)
+
+```
+
+STEP 2: install the libraries needed later
+
+```{r}
+#install libraries
+library(DescTools)
+library(ggplot2)
+library(moments)
+library(stringr)
+library(scales)
+
+```
+
+STEP 3: see what data we have
+
+```{r}
+#review data called
+head(faostat)
+str(faostat)
+names(faostat)
+```
+
+STEP 4: isolate each variable and aggregate crop data by country
+
+```{r}
+##YIELD##
+#just keep yield data
+yield_1=faostat[faostat$'Element'!='Production',]
+yield=yield_1[yield_1$'Element'!='Area harvested',]
+head(yield)
+
+#aggregate by country
+yield=aggregate(yield$'Y2016',by=list(yield$'Area'),sum)
+names(yield)=c('country','TotYield2016')
+yield
+
+str(yield)
+
+##PRODUCTION##
+#just keep production data
+prod_1=faostat[faostat$'Element'!='Yield',]
+prod=prod_1[prod_1$'Element'!='Area harvested',]
+head(prod)
+
+#aggregate by country
+prod=aggregate(prod$'Y2016',by=list(prod$'Area'),sum)
+names(prod)=c('country','TotProd2016')
+prod
+
+##AREA HARVESTED##
+#just keep area harvested data
+area_harv_1=faostat[faostat$'Element'!='Yield',]
+area_harv=area_harv_1[area_harv_1$'Element'!='Production',]
+head(area_harv)
+
+#aggregate by country
+area_harv=aggregate(area_harv$'Y2016',by=list(area_harv$'Area'),sum)
+names(area_harv)=c('country','TotAreaHarv2016')
+area_harv
+```
+
+STEP 5: conduct univariate analysis of yield
+
+```{r}
+
+#check data types
+str(yield)
+
+#centrality
+summary(yield$'TotYield2016')
+
+#dispersion
+sd(yield$'TotYield2016',na.rm=T)
+
+##coefficient of variation
+sd(yield$'TotYield2016',na.rm=T)/mean(yield$'TotYield2016',na.rm=T)
+
+#skewness
+skewness(yield$'TotYield2016',na.rm=T)
+
+#kurtosis
+kurtosis(yield$'TotYield2016',na.rm=T)
+Kurt(yield$'TotYield2016',na.rm=T)
+
+#histogram
+##keep non missing
+data=yield[is.finite(yield$'TotYield2016'),]
+
+##making numeric
+as.numeric(data$'TotYield2016')
+
+##histogram
+hist(data$'TotYield2016')
+
+##histogram of log
+hist(log(data$'TotYield2016'))
+
+#saving mean and sd
+mnVar=mean(var,na.rm=T)
+sdVar=sd(var,na.rm=T)
+
+#outliers
+summary(yield$'TotYield2016')
+
+##boxplot
+(bp=boxplot(yield$'TotYield2016',horizontal=T))
+
+##boxplot of log
+(bp_log=boxplot(log(yield$'TotYield2016')))
+
+#show values of both boxplots
+bp$stats
+bp_log$stats
+
+#show number of outliers
+length(bp$out)
+length(bp_log$out)
+
+```
+
+STEP 6: conduct bivariate analysis of yield, using production and area harvested
+
+```{r}
+
+#merge yield, production, and area harvested data into one dataset
+combinedYP=merge(yield,prod)
+combinedYPAH=merge(combined,area_harv)
+head(combinedYPAH)
+
+#correlation
+res<-cor(combinedYPAH[,c(2:4)],use='complete.obs')
+round(res,2)
+
+#correlation of log
+res_log<-cor(log(combinedYPAH[,c(2:4)]),use='complete.obs')
+round(res_log,2)
+
+#scatterplot
+library(car)
+scatterplotMatrix(combinedYPAH[,c(2:4)],
+                  main="Simple Scatterplot Matrix")
+
+#scatterplot of log
+scatterplotMatrix(log(combinedYPAH[,c(2:4)]),
+                  main="Simple Scatterplot Matrix")
+
+#non-parametric correlation
+cor(combinedYPAH[,c(2:4)],use='complete.obs',method='spearman')
+
+```
+
+```{r}
+##MAP DATA
+#get zip file from github
+compressedMap="https://github.com/howlem/projectData/raw/master/worldMap%20(1).zip"
+
+#unzip the file
+library(utils)
+temp=tempfile()
+download.file(compressedMap,temp)
+unzip(temp)
+
+```
+
+```{r}
+#select the map (shp file) needed
+library(rgdal)
+thefile=file.path('worldMap','worldMap.shp')
+worldMap <- rgdal::readOGR(thefile,stringsAsFactors=F) # use the names
+
+#check it out
+head(worldMap)
+
+```
+
+```{r}
+
+
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.

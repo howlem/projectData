@@ -1,0 +1,352 @@
+---
+title: "Final Project_Melissa Howlett"
+date: "February 1, 2017"
+---
+
+STEP 1: get data and confirm it's in the right format
+
+```{r}
+
+#get data
+faostat=read.csv("https://github.com/howlem/projectData/raw/master/Production_Crops_E_All_Data.csv",stringsAsFactors = F)
+
+#check is data frame
+is.data.frame(faostat)
+
+```
+
+STEP 2: install the libraries needed later
+
+```{r}
+#install libraries
+library(DescTools)
+library(ggplot2)
+library(moments)
+library(stringr)
+library(scales)
+
+```
+
+STEP 3: see what data we have
+
+```{r}
+#review data called
+head(faostat)
+str(faostat)
+names(faostat)
+```
+
+STEP 4: isolate each variable and aggregate crop data by country
+
+```{r}
+##YIELD##
+#just keep yield data
+yield_1=faostat[faostat$'Element'!='Production',]
+yield=yield_1[yield_1$'Element'!='Area harvested',]
+head(yield)
+
+#aggregate by country
+yield=aggregate(yield$'Y2016',by=list(yield$'Area'),sum)
+names(yield)=c('country','TotYield2016')
+yield
+
+str(yield)
+
+##PRODUCTION##
+#just keep production data
+prod_1=faostat[faostat$'Element'!='Yield',]
+prod=prod_1[prod_1$'Element'!='Area harvested',]
+head(prod)
+
+#aggregate by country
+prod=aggregate(prod$'Y2016',by=list(prod$'Area'),sum)
+names(prod)=c('country','TotProd2016')
+prod
+
+##AREA HARVESTED##
+#just keep area harvested data
+area_harv_1=faostat[faostat$'Element'!='Yield',]
+area_harv=area_harv_1[area_harv_1$'Element'!='Production',]
+head(area_harv)
+
+#aggregate by country
+area_harv=aggregate(area_harv$'Y2016',by=list(area_harv$'Area'),sum)
+names(area_harv)=c('country','TotAreaHarv2016')
+area_harv
+```
+
+STEP 5: conduct univariate analysis of yield
+
+```{r}
+
+#check data types
+str(yield)
+
+#centrality
+summary(yield$'TotYield2016')
+
+#dispersion
+sd(yield$'TotYield2016',na.rm=T)
+
+##coefficient of variation
+sd(yield$'TotYield2016',na.rm=T)/mean(yield$'TotYield2016',na.rm=T)
+
+#skewness
+skewness(yield$'TotYield2016',na.rm=T)
+
+#kurtosis
+kurtosis(yield$'TotYield2016',na.rm=T)
+Kurt(yield$'TotYield2016',na.rm=T)
+
+#histogram
+##keep non missing
+data=yield[is.finite(yield$'TotYield2016'),]
+
+##making numeric
+as.numeric(data$'TotYield2016')
+
+##histogram
+hist(data$'TotYield2016')
+
+##histogram of log
+hist(log(data$'TotYield2016'))
+
+#saving mean and sd
+mnVar=mean(data$TotYield2016,na.rm=T)
+sdVar=sd(data$TotYield2016,na.rm=T)
+
+#outliers
+summary(yield$'TotYield2016')
+
+##boxplot
+(bp=boxplot(yield$'TotYield2016',horizontal=T))
+
+##boxplot of log
+(bp_log=boxplot(log(yield$'TotYield2016')))
+
+#show values of both boxplots
+bp$stats
+bp_log$stats
+
+#show number of outliers
+length(bp$out)
+length(bp_log$out)
+
+```
+
+STEP 6: conduct bivariate analysis of yield, using production and area harvested
+
+```{r}
+
+#merge yield, production, and area harvested data into one dataset
+combinedYP=merge(yield,prod)
+combinedYPAH=merge(combinedYP,area_harv)
+head(combinedYPAH)
+
+#correlation
+res<-cor(combinedYPAH[,c(2:4)],use='complete.obs')
+round(res,2)
+
+#correlation of log
+res_log<-cor(log(combinedYPAH[,c(2:4)]),use='complete.obs')
+round(res_log,2)
+
+#scatterplot
+library(car)
+scatterplotMatrix(combinedYPAH[,c(2:4)],
+                  main="Simple Scatterplot Matrix")
+
+#scatterplot of log
+scatterplotMatrix(log(combinedYPAH[,c(2:4)]),
+                  main="Simple Scatterplot Matrix")
+
+#non-parametric correlation
+cor(combinedYPAH[,c(2:4)],use='complete.obs',method='spearman')
+
+```
+
+STEP 7: Bring in map data
+
+```{r}
+##MAP DATA##
+#get zip file from github
+compressedMap="https://github.com/howlem/projectData/raw/master/worldMap%20(1).zip"
+
+#unzip the file
+library(utils)
+temp=tempfile()
+download.file(compressedMap,temp)
+unzip(temp)
+
+```
+
+```{r}
+#select the map (shp file) needed
+library(rgdal)
+thefile=file.path('worldMap','worldMap.shp')
+worldMap <- rgdal::readOGR(thefile,stringsAsFactors=F) # use the names
+
+#check it out
+head(worldMap)
+
+```
+
+```{r}
+#only keep African countries
+worldMap=worldMap[worldMap$REGION==2,]
+```
+
+STEP 8: Combine it with FAO data
+
+```{r}
+#see what variables are present
+names(worldMap)
+
+#rename "NAME" column to "country"" so can merge
+names(worldMap)[names(worldMap)=='NAME'] <- 'country'
+
+#merge the two datasets into one, by country
+YPAHforMap <- merge(worldMap,combinedYPAH,
+                    by=c("country"))
+
+#see what happened
+head(YPAHforMap)
+
+```
+
+```{r}
+names(YPAHforMap)
+
+```
+
+```{r}
+
+library(RColorBrewer)
+library(classInt)
+
+varToPlot=YPAHforMap$TotYield2016
+
+numberOfClasses = 8
+colorForScale='YlGnBu'
+colors = brewer.pal(numberOfClasses, colorForScale)
+intervals <- classIntervals(varToPlot, numberOfClasses, 
+                            style = "quantile",
+                            dataPrecision=2)
+colorPallette <- findColours(intervals, colors)
+
+legendText="Total Yield of all crops in 2016"
+shrinkLegend=0.5
+title="Total 2016 Yield by Country in Africa"
+
+plot(worldMap,col='gray',main=title)
+plot(YPAHforMap, col=colorPallette, border='grey',add=T)
+
+legend('topright', legend = names(attr(colorPallette, "table")), 
+       fill = attr(colorPallette, "palette"), cex = shrinkLegend, 
+       bty = "n",
+       title=legendText)
+```
+
+```{r}
+names(YPAHforMap)
+```
+
+
+```{r}
+test=YPAHforMap@data[,c(1,12:14)]
+```
+
+
+```{r}
+
+combinedYPAH=combinedYPAH[complete.cases(combinedYPAH),]
+
+library(cluster)
+
+YPAHsimi=daisy(combinedYPAH[,c(2:4)],metric="euclidean",
+                   stand=TRUE)
+
+YPAHcluster=hclust(YPAHsimi,method = 'average')
+
+plot(YPAHcluster,cex=0.3)
+rect.hclust(YPAHcluster, k = 3,border = c('orange','blue','red'))
+
+```
+
+```{r}
+combinedYPAH[,c(2:4)]
+```
+
+```{r}
+#numerical clustering
+YPAHsil3=silhouette(cutree(YPAHcluster,k=3),YPAHsimi)
+clust3solution=data.frame(matrix(YPAHsil3,ncol = 3,dimnames =dimnames(YPAHsil3)))
+row.names(clust3solution)=combinedYPAH$country
+```
+
+```{r}
+clust3solution
+```
+```{r}
+#identify which items are difficult to cluster
+(bad3=clust3solution[clust3solution$sil_width<0,])
+```
+
+```{r}
+
+```
+
+```{r}
+
+#save solution
+solution=clust3solution
+
+#create country column
+solution$country=row.names(clust3solution)
+row.names(solution)=NULL #reset row names
+
+#merge datasets
+combinedYPAH_updated=merge(YPAHforMap,solution)
+
+head(combinedYPAH_updated)
+
+```
+
+```{r}
+
+varToPlot=combinedYPAH_updated$cluster
+
+numberOfClasses = length(levels(varToPlot)) 
+colorForScale='Set2'
+colors = brewer.pal(numberOfClasses, colorForScale)
+
+legendText="Clustered - Yield, Production, and Area Harvested"
+shrinkLegend=0.4
+title="Yield, Production, and Area Harvested in Africa (2016)"
+
+plot(worldMap,col='black',main=title)
+plot(combinedYPAH_updated, 
+     col = colors[varToPlot],border='grey',add=T)
+
+legend('left', legend = levels(varToPlot), 
+       fill = colors, 
+       cex = shrinkLegend, 
+       bty = "n",
+       title=legendText)
+
+```
+
+
+
+
+
+
+
+
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.

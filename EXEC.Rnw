@@ -19,7 +19,7 @@ This is my intro to my great paper, I will explain the cool things I can do with
 This is my nice intro to my great paper, 
 I will explain the cool things I can do with my new `computational thinking' powers combined with some Latex.
 
-<<ECHO=FALSE, FIGURE=TRUE, EVAL=TRUE>>=
+<<ECHO=FALSE>>=
 #get data
 faostat=read.csv("https://github.com/howlem/projectData/raw/master/Production_Crops_E_All_Data.csv",stringsAsFactors = F)
 
@@ -63,7 +63,7 @@ head(combinedYPAH)
 
 ##MAP DATA##
 #get zip file from github
-compressedMap="https://github.com/howlem/projectData/raw/master/worldMap%20(1).zip"
+compressedMap="https://github.com/howlem/projectData/blob/master/worldMap/worldMap.shp?raw=true"
 
 #unzip the file
 temp=tempfile()
@@ -83,6 +83,10 @@ names(worldMap)[names(worldMap)=='NAME'] <- 'country'
 #merge the two datasets into one, by country
 YPAHforMap <- merge(worldMap,combinedYPAH,
                     by=c("country"))
+
+@
+
+<<location,echo=FALSE, fig=TRUE,eval=TRUE,height=2.6>>=
 
 #identify variable to plot
 varToPlot=YPAHforMap$TotYield2016

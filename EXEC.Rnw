@@ -19,17 +19,75 @@ This is my intro to my great paper, I will explain the cool things I can do with
 This is my nice intro to my great paper, 
 I will explain the cool things I can do with my new `computational thinking' powers combined with some Latex.
 
-<<>>=
+<<ECHO=FALSE, FIGURE=TRUE, EVAL=TRUE>>=
 #get data
 faostat=read.csv("https://github.com/howlem/projectData/raw/master/Production_Crops_E_All_Data.csv",stringsAsFactors = F)
 
-#check that it is a data frame
-is.data.frame(faostat)
+##YIELD##
+#just keep yield data
+yield_1=faostat[faostat$'Element'!='Production',]
+yield=yield_1[yield_1$'Element'!='Area harvested',]
+head(yield)
 
+#aggregate by country
+yield=aggregate(yield$'Y2016',by=list(yield$'Area'),sum)
+names(yield)=c('country','TotYield2016')
+yield
 
+##PRODUCTION##
+#just keep production data
+prod_1=faostat[faostat$'Element'!='Yield',]
+prod=prod_1[prod_1$'Element'!='Area harvested',]
+head(prod)
 
+#aggregate by country
+prod=aggregate(prod$'Y2016',by=list(prod$'Area'),sum)
+names(prod)=c('country','TotProd2016')
+prod
 
+##AREA HARVESTED##
+#just keep area harvested data
+area_harv_1=faostat[faostat$'Element'!='Yield',]
+area_harv=area_harv_1[area_harv_1$'Element'!='Production',]
+head(area_harv)
 
+#aggregate by country
+area_harv=aggregate(area_harv$'Y2016',by=list(area_harv$'Area'),sum)
+names(area_harv)=c('country','TotAreaHarv2016')
+area_harv
+
+#merge yield, production, and area harvested data into one dataset
+combinedYP=merge(yield,prod)
+combinedYPAH=merge(combinedYP,area_harv)
+head(combinedYPAH)
+
+##MAP DATA##
+#get zip file from github
+compressedMap="https://github.com/howlem/projectData/raw/master/worldMap%20(1).zip"
+
+#unzip the file
+temp=tempfile()
+download.file(compressedMap,temp)
+unzip(temp)
+
+#select the map (shp file) needed
+thefile=file.path('worldMap','worldMap.shp')
+worldMap <- rgdal::readOGR(thefile,stringsAsFactors=F) # use the names
+
+#only keep African countries
+worldMap=worldMap[worldMap$REGION==2,]
+
+#rename "NAME" column to "country"" so can merge
+names(worldMap)[names(worldMap)=='NAME'] <- 'country'
+
+#merge the two datasets into one, by country
+YPAHforMap <- merge(worldMap,combinedYPAH,
+                    by=c("country"))
+
+#identify variable to plot
+varToPlot=YPAHforMap$TotYield2016
+
+#plot yield data on map of Africa
 numberOfClasses = 8
 colorForScale='YlGnBu'
 colors = brewer.pal(numberOfClasses, colorForScale)

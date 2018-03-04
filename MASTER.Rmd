@@ -212,7 +212,7 @@ STEP 7: Bring in map data
 ```{r}
 ##MAP DATA##
 #get zip file from github
-compressedMap="https://github.com/howlem/projectData/raw/master/worldMap%20(1).zip"
+compressedMap="https://github.com/howlem/projectData/blob/master/worldMap/worldMap.shp?raw=true"
 ```
 
 ```{r}

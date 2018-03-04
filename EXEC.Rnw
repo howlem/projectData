@@ -19,7 +19,7 @@ This is my intro to my great paper, I will explain the cool things I can do with
 This is my nice intro to my great paper, 
 I will explain the cool things I can do with my new `computational thinking' powers combined with some Latex.
 
-<<ECHO=FALSE>>=
+<<ECHO=FALSE,results=hide>>=
 #get data
 faostat=read.csv("https://github.com/howlem/projectData/raw/master/Production_Crops_E_All_Data.csv",stringsAsFactors = F)
 
@@ -86,32 +86,38 @@ YPAHforMap <- merge(worldMap,combinedYPAH,
 
 @
 
-<<location,echo=FALSE, fig=TRUE,eval=TRUE,height=2.6>>=
-
-#identify variable to plot
-varToPlot=YPAHforMap$TotYield2016
-
-#plot yield data on map of Africa
-numberOfClasses = 8
-colorForScale='YlGnBu'
-colors = brewer.pal(numberOfClasses, colorForScale)
-intervals <- classIntervals(varToPlot, numberOfClasses, 
-                            style = "quantile",
-                            dataPrecision=2)
-colorPallette <- findColours(intervals, colors)
-
-legendText="Total Yield of all crops in 2016"
-shrinkLegend=0.5
-title="Total 2016 Yield by Country in Africa"
-
-plot(worldMap,col='gray',main=title)
-plot(YPAHforMap, col=colorPallette, border='grey',add=T)
-
-legend('topright', legend = names(attr(colorPallette, "table")), 
-       fill = attr(colorPallette, "palette"), cex = shrinkLegend, 
-       bty = "n",
-       title=legendText)
-@
+% <<location,echo=FALSE, fig=TRUE,eval=TRUE,height=2.6>>=
+% library(RColorBrewer)
+% library(classInt)
+% library(ggplot2)
+% 
+% #making numeric
+% as.numeric(data$'TotYield2016')
+% 
+% #identify variable to plot
+% varToPlot=YPAHforMap$TotYield2016
+% 
+% #plot yield data on map of Africa
+% numberOfClasses = 8
+% colorForScale='YlGnBu'
+% colors = brewer.pal(numberOfClasses, colorForScale)
+% intervals <- classIntervals(varToPlot, numberOfClasses, 
+%                             style = "quantile",
+%                             dataPrecision=2)
+% colorPallette <- findColours(intervals, colors)
+% 
+% legendText="Total Yield of all crops in 2016"
+% shrinkLegend=0.5
+% title="Total 2016 Yield by Country in Africa"
+% 
+% plot(worldMap,col='gray',main=title)
+% plot(YPAHforMap, col=colorPallette, border='grey',add=T)
+% 
+% legend('topright', legend = names(attr(colorPallette, "table")), 
+%        fill = attr(colorPallette, "palette"), cex = shrinkLegend, 
+%        bty = "n",
+%        title=legendText)
+% @
 
 
 \end{document}

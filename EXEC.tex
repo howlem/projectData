@@ -1,0 +1,44 @@
+\documentclass{article}
+
+\usepackage{apacite}
+
+\title{Agriculture in Africa, 2016}
+\author{Melissa Howlett}
+
+\usepackage{Sweave}
+\begin{document}
+\input{EXEC-concordance}
+\maketitle
+
+\begin{abstract}
+This paper uses Food and Agriculture Organization of the United Nations (FAO) data to examine the relationship between yield, production, and area harvested in Africa. 
+\end{abstract}
+
+\section{Introduction}\label{intro}
+This is my intro to my great paper, I will explain the cool things I can do with my new `computational thinking' powers combined with some Latex.
+
+This is my nice intro to my great paper, 
+I will explain the cool things I can do with my new `computational thinking' powers combined with some Latex.
+
+numberOfClasses = 8
+colorForScale='YlGnBu'
+colors = brewer.pal(numberOfClasses, colorForScale)
+intervals <- classIntervals(varToPlot, numberOfClasses, 
+                            style = "quantile",
+                            dataPrecision=2)
+colorPallette <- findColours(intervals, colors)
+
+legendText="Total Yield of all crops in 2016"
+shrinkLegend=0.5
+title="Total 2016 Yield by Country in Africa"
+
+plot(worldMap,col='gray',main=title)
+plot(YPAHforMap, col=colorPallette, border='grey',add=T)
+
+legend('topright', legend = names(attr(colorPallette, "table")), 
+       fill = attr(colorPallette, "palette"), cex = shrinkLegend, 
+       bty = "n",
+       title=legendText)
+
+
+\end{document}

@@ -34,7 +34,7 @@ A next step demands:
   \item Visualizing the variables of interest.
 \end{itemize}
 
-<<echo=FALSE,results=tex>>=
+<<echo=FALSE,results=hide>>=
 ##YIELD##
 #just keep yield data
 yield_1=faostat[faostat$'Element'!='Production',]
@@ -76,7 +76,7 @@ head(combinedYPAH)
 
 \section{Maps}\label{maps}
 Intro maps
-<<echo=FALSE>>=
+<<echo=FALSE,results=hide>>=
 ##MAP DATA##
 #get zip file from github
 compressedMap="https://github.com/howlem/projectData/blob/master/worldMap/worldMap.shp?raw=true"
@@ -85,7 +85,9 @@ compressedMap="https://github.com/howlem/projectData/blob/master/worldMap/worldM
 temp=tempfile()
 download.file(compressedMap,temp)
 unzip(temp)
+@
 
+<<echo=FALSE,results=hide>>=
 #select the map (shp file) needed
 thefile=file.path('worldMap','worldMap.shp')
 worldMap <- rgdal::readOGR(thefile,stringsAsFactors=F) # use the names
@@ -99,6 +101,57 @@ names(worldMap)[names(worldMap)=='NAME'] <- 'country'
 #merge the two datasets into one, by country
 YPAHforMap <- merge(worldMap,combinedYPAH,
                     by=c("country"))
+
 @
+
+
+<<echo=FALSE,results=hide>>=
+#bring in libraries
+library(ggplot2)
+library(moments)
+library(stringr)
+library(scales)
+library(car)
+library(utils)
+library(rgdal)
+library(RColorBrewer)
+library(classInt)
+@
+
+<<echo=FALSE,results=hide>>=
+#identify variable to plot
+varToPlot=YPAHforMap$TotYield2016
+@
+
+
+\begin{figure}[h]
+\centering
+<<location,echo=FALSE, fig=TRUE,eval=TRUE,width=20, height=6>>=
+
+#plot yield data on map of Africa
+numberOfClasses = 8
+colorForScale='YlGnBu'
+colors = brewer.pal(numberOfClasses, colorForScale)
+intervals <- classIntervals(varToPlot, numberOfClasses, 
+                            style = "quantile",
+                            dataPrecision=2)
+colorPallette <- findColours(intervals, colors)
+
+legendText="Total Yield of all crops in 2016"
+shrinkLegend=0.5
+title="Total 2016 Yield by Country in Africa"
+
+plot(worldMap,col='gray',main=title)
+plot(YPAHforMap, col=colorPallette, border='grey',add=T)
+
+legend('topright', legend = names(attr(colorPallette, "table")), 
+       fill = attr(colorPallette, "palette"), cex = shrinkLegend, 
+       bty = "n",
+       title=legendText)
+
+@
+\caption{Total 2016 Yield by Country in Africa}
+\label{region_maps}
+\end{figure}
 
 \end{document}

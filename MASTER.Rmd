@@ -212,7 +212,7 @@ STEP 7: Bring in map data
 ```{r}
 ##MAP DATA##
 #get zip file from github
-compressedMap="https://github.com/howlem/projectData/blob/master/worldMap/worldMap.shp?raw=true"
+compressedMap="https://github.com/howlem/projectData/blob/master/TM_WORLD_BORDERS_SIMPL-0.3.zip?raw=true"
 ```
 
 ```{r}

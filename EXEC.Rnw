@@ -3,26 +3,38 @@
 \usepackage{apacite}
 
 \title{Agriculture in Africa, 2016}
-\author{Melissa Howlett}
-
+\author{
+        Melissa Howlett\\
+        Evans School of Public Policy and Governance\\
+        University of Washington\\
+        Seattle, WA 98115, \underline{United States}\\
+        \texttt{howlem@uw.edu}
+}
 \begin{document}
 \SweaveOpts{concordance=TRUE}
 \maketitle
 
-\begin{abstract}
-This paper uses Food and Agriculture Organization of the United Nations (FAO) data to examine the relationship between yield, production, and area harvested in Africa. 
-\end{abstract}
-
 \section{Introduction}\label{intro}
-This is my intro to my great paper, I will explain the cool things I can do with my new `computational thinking' powers combined with some Latex.
+This paper uses Food and Agriculture Organization of the United Nations (FAO) data to examine the relationship between yield, production, and area harvested in Africa.
 
-This is my nice intro to my great paper, 
-I will explain the cool things I can do with my new `computational thinking' powers combined with some Latex.
-
-<<ECHO=FALSE,results=hide>>=
+\section{Data analysis}\label{datas}
+Explanation of data
+<<echo=FALSE>>=
 #get data
 faostat=read.csv("https://github.com/howlem/projectData/raw/master/Production_Crops_E_All_Data.csv",stringsAsFactors = F)
+@
 
+\subsection{Variables}\label{eda}
+
+Describe each variable in combined dataset
+%bullets
+A next step demands:
+\begin{itemize}
+  \item Knowing the \emph{central} and \emph{dispersion} values.
+  \item Visualizing the variables of interest.
+\end{itemize}
+
+<<echo=FALSE,results=tex>>=
 ##YIELD##
 #just keep yield data
 yield_1=faostat[faostat$'Element'!='Production',]
@@ -60,7 +72,11 @@ area_harv
 combinedYP=merge(yield,prod)
 combinedYPAH=merge(combinedYP,area_harv)
 head(combinedYPAH)
+@
 
+\section{Maps}\label{maps}
+Intro maps
+<<echo=FALSE>>=
 ##MAP DATA##
 #get zip file from github
 compressedMap="https://github.com/howlem/projectData/blob/master/worldMap/worldMap.shp?raw=true"
@@ -83,41 +99,6 @@ names(worldMap)[names(worldMap)=='NAME'] <- 'country'
 #merge the two datasets into one, by country
 YPAHforMap <- merge(worldMap,combinedYPAH,
                     by=c("country"))
-
 @
-
-% <<location,echo=FALSE, fig=TRUE,eval=TRUE,height=2.6>>=
-% library(RColorBrewer)
-% library(classInt)
-% library(ggplot2)
-% 
-% #making numeric
-% as.numeric(data$'TotYield2016')
-% 
-% #identify variable to plot
-% varToPlot=YPAHforMap$TotYield2016
-% 
-% #plot yield data on map of Africa
-% numberOfClasses = 8
-% colorForScale='YlGnBu'
-% colors = brewer.pal(numberOfClasses, colorForScale)
-% intervals <- classIntervals(varToPlot, numberOfClasses, 
-%                             style = "quantile",
-%                             dataPrecision=2)
-% colorPallette <- findColours(intervals, colors)
-% 
-% legendText="Total Yield of all crops in 2016"
-% shrinkLegend=0.5
-% title="Total 2016 Yield by Country in Africa"
-% 
-% plot(worldMap,col='gray',main=title)
-% plot(YPAHforMap, col=colorPallette, border='grey',add=T)
-% 
-% legend('topright', legend = names(attr(colorPallette, "table")), 
-%        fill = attr(colorPallette, "palette"), cex = shrinkLegend, 
-%        bty = "n",
-%        title=legendText)
-% @
-
 
 \end{document}

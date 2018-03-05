@@ -212,7 +212,7 @@ STEP 7: Bring in map data
 ```{r}
 ##MAP DATA##
 #get zip file from github
-compressedMap="https://github.com/howlem/projectData/blob/master/TM_WORLD_BORDERS_SIMPL-0.3.zip?raw=true"
+compressedMap="https://github.com/howlem/projectData/raw/master/TM_WORLD_BORDERS_SIMPL-0.3.zip"
 ```
 
 ```{r}
@@ -224,7 +224,7 @@ unzip(temp)
 
 ```{r}
 #select the map (shp file) needed
-thefile=file.path('worldMap','worldMap.shp')
+thefile='TM_WORLD_BORDERS_SIMPL-0.3.shp'
 worldMap <- rgdal::readOGR(thefile,stringsAsFactors=F) # use the names
 ```
 

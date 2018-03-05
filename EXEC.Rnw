@@ -79,7 +79,7 @@ Intro maps
 <<echo=FALSE,results=hide>>=
 ##MAP DATA##
 #get zip file from github
-compressedMap="https://github.com/howlem/projectData/blob/master/worldMap/worldMap.shp?raw=true"
+compressedMap="https://github.com/howlem/projectData/blob/master/TM_WORLD_BORDERS_SIMPL-0.3.zip"
 
 #unzip the file
 temp=tempfile()

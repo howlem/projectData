@@ -175,7 +175,7 @@ STEP 6: conduct bivariate analysis of yield, using production and area harvested
 #merge yield, production, and area harvested data into one dataset
 combinedYP=merge(yield,prod)
 combinedYPAH=merge(combinedYP,area_harv)
-head(combinedYPAH)
+head(combinedYPAH) #combined Yield Production & Area Harvested
 ```
 
 ```{r}

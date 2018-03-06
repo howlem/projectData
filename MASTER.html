@@ -1628,17 +1628,16 @@ cor(combinedYPAH[,c(2:4)],use='complete.obs',method='spearman')</code></pre>
 <p>STEP 7: Bring in map data</p>
 <pre class="r"><code>##MAP DATA##
 #get zip file from github
-compressedMap=&quot;https://github.com/howlem/projectData/blob/master/worldMap/worldMap.shp?raw=true&quot;</code></pre>
+compressedMap=&quot;https://github.com/howlem/projectData/raw/master/TM_WORLD_BORDERS_SIMPL-0.3.zip&quot;</code></pre>
 <pre class="r"><code>#unzip the file
 temp=tempfile()
 download.file(compressedMap,temp)
 unzip(temp)</code></pre>
-<pre><code>## Warning in unzip(temp): error 1 in extracting from zip file</code></pre>
 <pre class="r"><code>#select the map (shp file) needed
-thefile=file.path('worldMap','worldMap.shp')
+thefile='TM_WORLD_BORDERS_SIMPL-0.3.shp'
 worldMap &lt;- rgdal::readOGR(thefile,stringsAsFactors=F) # use the names</code></pre>
 <pre><code>## OGR data source with driver: ESRI Shapefile 
-## Source: &quot;worldMap/worldMap.shp&quot;, layer: &quot;worldMap&quot;
+## Source: &quot;TM_WORLD_BORDERS_SIMPL-0.3.shp&quot;, layer: &quot;TM_WORLD_BORDERS_SIMPL-0.3&quot;
 ## with 246 features
 ## It has 11 fields
 ## Integer64 fields read as strings:  POP2005</code></pre>

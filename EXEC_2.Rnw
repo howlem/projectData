@@ -76,10 +76,6 @@ head(combinedYPAH)
 
 \section{Maps}\label{maps}
 Intro maps
-<<echo=FALSE>>=
-## SET AS WORKING HERE
-@
-
 <<echo=FALSE,results=hide>>=
 ##MAP DATA##
 #get zip file from github
@@ -93,7 +89,7 @@ unzip(temp)
 
 <<echo=FALSE,results=hide>>=
 #select the map (shp file) needed
-thefile='TM_WORLD_BORDERS_SIMPL-0.3.shp'
+thefile=file.path('TM_WORLD_BORDERS_SIMPL-0.3.shp')
 worldMap <- rgdal::readOGR(thefile,stringsAsFactors=F) # use the names
 
 #only keep African countries
@@ -106,6 +102,8 @@ names(worldMap)[names(worldMap)=='NAME'] <- 'country'
 YPAHforMap <- merge(worldMap,combinedYPAH,
                     by=c("country"))
 
+
+YPAHforMap=YPAHforMap[complete.cases(YPAHforMap$TotYield2016),]
 @
 
 
@@ -122,13 +120,24 @@ library(RColorBrewer)
 library(classInt)
 @
 
+
+<<>>=
+#writeOGR(obj=YPAHforMap, dsn=".", layer="africayield", driver="ESRI Shapefile")
+@
+
+<<>>=
+thefile=file.path('africayield.shp')
+testMap <- rgdal::readOGR(thefile,stringsAsFactors=F) # use the names
+@
+
+<<>>=
+names(testMap)
+@
+
 \begin{figure}[h]
 \centering
-<<location,echo=FALSE,fig=TRUE,eval=TRUE>>=
-#identify variable to plot
-varToPlot=YPAHforMap$TotYield2016
-
-#plot yield data on map of Africa
+<<loc, fig=TRUE, echo=FALSE>>=
+varToPlot=testMap$TtY2016
 numberOfClasses = 3
 colorForScale='YlGnBu'
 colors = brewer.pal(numberOfClasses, colorForScale)
@@ -141,13 +150,48 @@ legendText="Total Yield of all crops in 2016"
 shrinkLegend=0.5
 title="Total 2016 Yield by Country in Africa"
 
-plot(worldMap,col='gray',main=title)
-#plot(YPAHforMap, col=colorPallette, border='grey',add=T)
 
-#legend('topright', legend = names(attr(colorPallette, "table")), 
-#       fill = attr(colorPallette, "palette"), cex = shrinkLegend, 
-#       bty = "n",
-#       title=legendText)
+plot(worldMap,col='gray',main=title)
+plot(testMap,col=colorPallette,add=T)
+legend('topright', legend = names(attr(colorPallette, "table")),
+      fill = attr(colorPallette, "palette"), cex = shrinkLegend,
+      bty = "n",
+      title=legendText)
+
+@
+\caption{Total 2016 Yield by Country in Africa}
+\label{region_maps}
+\end{figure}
+
+% # <<echo=FALSE,eval=TRUE>>=
+% # #identify variable to plot
+% # varToPlot=YPAHforMap$TotYield2016
+% # @
+% # 
+% # \begin{figure}[h]
+% # \centering
+% # <<location,echo=FALSE, fig=TRUE, eval=FALSE>>=
+% # 
+% # #plot yield data on map of Africa
+% # numberOfClasses = 3
+% # colorForScale='YlGnBu'
+% # colors = brewer.pal(numberOfClasses, colorForScale)
+% # intervals <- classIntervals(varToPlot, numberOfClasses, 
+% #                             style = "quantile",
+% #                             dataPrecision=2)
+% # colorPallette <- findColours(intervals, colors)
+% # 
+% # legendText="Total Yield of all crops in 2016"
+% # shrinkLegend=0.5
+% # title="Total 2016 Yield by Country in Africa"
+% # 
+% # #plot(worldMap,col='gray',main=title)
+% # plot(YPAHforMap)#, col=colorPallette, border='grey',add=T)
+% # 
+% # #legend('topright', legend = names(attr(colorPallette, "table")), 
+% # #       fill = attr(colorPallette, "palette"), cex = shrinkLegend, 
+% # #       bty = "n",
+% # #       title=legendText)
 
 @
 \caption{Total 2016 Yield by Country in Africa}

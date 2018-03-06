@@ -12,7 +12,7 @@
 }
 \usepackage{Sweave}
 \begin{document}
-\input{EXEC_2-concordance}
+\input{melissa-concordance}
 \maketitle
 
 \section{Introduction}\label{intro}
@@ -41,4 +41,11 @@ Intro maps
 
 \begin{Schunk}
 \begin{Sinput}
-> writeOGR(obj=YPAHforMap, dsn=".", layer="africayield", driver="ESRI Shapefile")
+> #writeOGR(obj=YPAHforMap, dsn=".", layer="africayield", driver="ESRI Shapefile")
+\end{Sinput}
+\end{Schunk}
+
+\begin{Schunk}
+\begin{Sinput}
+> thefile=file.path('africayield.shp')
+> testMap <- rgdal::readOGR(thefile,stringsAsFactors=F) # use the names

@@ -136,7 +136,7 @@ names(testMap)
 
 \begin{figure}[h]
 \centering
-<<loc, fig=TRUE,results=hide,echo=FALSE,width=10,height=5>>=
+<<loc, fig=TRUE,results=hide,echo=FALSE>>=
 varToPlot=testMap$TtY2016
 numberOfClasses = 3
 colorForScale='YlGnBu'
@@ -147,7 +147,7 @@ intervals <- classIntervals(varToPlot, numberOfClasses,
 colorPallette <- findColours(intervals, colors)
 
 legendText="Total Yield of all crops in 2016"
-shrinkLegend=0.5
+shrinkLegend=.5
 title="Total 2016 Yield by Country in Africa"
 
 

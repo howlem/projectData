@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.7)  5 MAR 2018 11:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.7)  5 MAR 2018 23:03
 entering extended mode
 **./EXEC.tex
 (EXEC.tex
@@ -314,48 +314,28 @@ LaTeX Font Info:    Try loading font information for T1+aett on input line 16.
 "
 File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
 )
-LaTeX Font Info:    Try loading font information for TS1+aer on input line 30.
+LaTeX Font Info:    Try loading font information for TS1+aer on input line 29.
  (C:/PROGRA~1/R/R-34~1.3/share/texmf/tex/latex\ts1aer.fd
 File: ts1aer.fd 
 )
 LaTeX Font Info:    Font shape `TS1/aer/m/n' in size <10> not available
-(Font)              Font shape `TS1/cmr/m/n' tried instead on input line 30.
+(Font)              Font shape `TS1/cmr/m/n' tried instead on input line 29.
 <EXEC-location.pdf, id=2, pagebox=cropbox, 433.62pt x 433.62pt>
 File: EXEC-location.pdf Graphic file (type pdf)
 <use EXEC-location.pdf>
-Package pdftex.def Info: EXEC-location.pdf  used on input line 46. on input lin
-e 46.
+Package pdftex.def Info: EXEC-location.pdf  used on input line 44. on input lin
+e 44.
 Package pdftex.def Info: Requested size: 276.00105pt x 276.0139pt on input line
- 46.
+ 44.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[1
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 58.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 58.
 
-{C:/Users/Mel Howlett/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-[2 <./EXEC-location.pdf>] (EXEC.aux) ) 
-Here is how much of TeX's memory you used:
- 3129 strings out of 493312
- 45849 string characters out of 3127216
- 95349 words of memory out of 3000000
- 6607 multiletter control sequences out of 15000+200000
- 25904 words of font info for 56 fonts, out of 3000000 for 9000
- 1141 hyphenation exceptions out of 8191
- 41i,9n,25p,273b,270s stack positions out of 5000i,500n,10000p,200000b,50000s
- <C:\Users\Mel Howlett\AppData\Local\MiKT
-eX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\tcrm1000.pk><C:/Users/Mel Howlett/App
-Data/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Us
-ers/Mel Howlett/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/c
-m/cmr10.pfb><C:/Users/Mel Howlett/AppData/Local/Programs/MiKTeX 2.9/fonts/type1
-/public/amsfonts/cm/cmr12.pfb><C:/Users/Mel Howlett/AppData/Local/Programs/MiKT
-eX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Mel Howlett/AppData/L
-ocal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/Me
-l Howlett/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt
-12.pfb>
-Output written on EXEC.pdf (2 pages, 87116 bytes).
-PDF statistics:
- 45 PDF objects out of 1000 (max. 8388607)
- 0 named destinations out of 1000 (max. 500000)
- 10 words of extra memory for PDF output out of 10000 (max. 10000000)
-
+!pdfTeX error: pdflatex.exe (file ./EXEC-008.pdf): PDF inclusion: required page
+ does not exist <0>
+ ==> Fatal error occurred, no output PDF file produced!

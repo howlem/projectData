@@ -15,10 +15,10 @@
 \maketitle
 
 \section{Introduction}\label{intro}
-This paper uses Food and Agriculture Organization of the United Nations (FAO) data to examine the relationship between yield, production, and area harvested in Africa.
+This paper uses data from the Food and Agriculture Organization of the United Nations (FAO) to examine the relationship between yield, production, and area harvested in Africa.
 
-\section{Data analysis}\label{datas}
-Explanation of data
+\section{Data}\label{datas}
+The data is drawn from 2016 FAO data. Each variable (described in more detail below) is aggregated by country. So, for example, all the yield data for Togo in 2016 is aggregated into one amount for the whole country. 
 <<echo=FALSE>>=
 #get data
 faostat=read.csv("https://github.com/howlem/projectData/raw/master/Production_Crops_E_All_Data.csv",stringsAsFactors = F)
@@ -26,12 +26,12 @@ faostat=read.csv("https://github.com/howlem/projectData/raw/master/Production_Cr
 
 \subsection{Variables}\label{eda}
 
-Describe each variable in combined dataset
+The dataset contains the followng three variables:
 %bullets
-A next step demands:
 \begin{itemize}
-  \item Knowing the \emph{central} and \emph{dispersion} values.
-  \item Visualizing the variables of interest.
+  \item \emph{Yield.} The harvested production per unit of harvested area for crop products (in hectogramme (100 grammes) per hectare). 
+  \item \emph{Production.} The amount, in tonnes, of crops produced in the year. 
+  \item \emph{Area Harvested.} The area from which a crop is gathered (in hectares). 
 \end{itemize}
 
 <<echo=FALSE,results=hide>>=
@@ -75,7 +75,7 @@ head(combinedYPAH)
 @
 
 \section{Maps}\label{maps}
-Intro maps
+Below is a map that shows yield data by country in Africa for 2016. Production and area harvested are missing data for too many countries to be useful, so we have not included maps for them.  
 <<echo=FALSE>>=
 ## SET AS WORKING HERE
 @
@@ -153,5 +153,18 @@ plot(worldMap,col='gray',main=title)
 \caption{Total 2016 Yield by Country in Africa}
 \label{region_maps}
 \end{figure}
+
+
+<<echo=FALSE,results=tex,fig=TRUE,eval=TRUE>>=
+#correlation of log
+correlation.matrix<-cor(log(combinedYPAH[,c(2:4)]),use='complete.obs')
+round(correlation.matrix,2)
+
+#install stargazer to make table
+library(stargazer)
+
+stargazer(correlation.matrix,title="Correlation Matrix")
+  
+@
 
 \end{document}

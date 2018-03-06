@@ -16,26 +16,24 @@
 \maketitle
 
 \section{Introduction}\label{intro}
-This paper uses Food and Agriculture Organization of the United Nations (FAO) data to examine the relationship between yield, production, and area harvested in Africa.
+This paper uses data from the Food and Agriculture Organization of the United Nations (FAO) to examine the relationship between yield, production, and area harvested in Africa.
 
-\section{Data analysis}\label{datas}
-Explanation of data
+\section{Data}\label{datas}
+The data is drawn from 2016 FAO data. Each variable (described in more detail below) is aggregated by country. So, for example, all the yield data for Togo in 2016 is aggregated into one amount for the whole country. 
 
 \subsection{Variables}\label{eda}
 
-Describe each variable in combined dataset
+The dataset contains the followng three variables:
 %bullets
-A next step demands:
 \begin{itemize}
-  \item Knowing the \emph{central} and \emph{dispersion} values.
-  \item Visualizing the variables of interest.
+  \item \emph{Yield.} The harvested production per unit of harvested area for crop products (in hectogramme (100 grammes) per hectare). 
+  \item \emph{Production.} The amount, in tonnes, of crops produced in the year. 
+  \item \emph{Area Harvested.} The area from which a crop is gathered (in hectares). 
 \end{itemize}
 
 
 \section{Maps}\label{maps}
-Intro maps
-
-
+Below is a map that shows yield data by country in Africa for 2016. Production and area harvested are missing data for too many countries to be useful, so we have not included maps for them.  
 
 
 
@@ -47,5 +45,26 @@ Intro maps
 \caption{Total 2016 Yield by Country in Africa}
 \label{region_maps}
 \end{figure}
+
+
+                TotYield2016 TotProd2016 TotAreaHarv2016
+TotYield2016            1.00        0.71            0.55
+TotProd2016             0.71        1.00            0.96
+TotAreaHarv2016         0.55        0.96            1.00% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
+% Date and time: Mon, Mar 05, 2018 - 11:03:35 PM
+\begin{table}[!htbp] \centering 
+  \caption{Correlation Matrix} 
+  \label{} 
+\begin{tabular}{@{\extracolsep{5pt}} cccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+ & TotYield2016 & TotProd2016 & TotAreaHarv2016 \\ 
+\hline \\[-1.8ex] 
+TotYield2016 & $1$ & $0.706$ & $0.550$ \\ 
+TotProd2016 & $0.706$ & $1$ & $0.959$ \\ 
+TotAreaHarv2016 & $0.550$ & $0.959$ & $1$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table} \includegraphics{EXEC-008}
 
 \end{document}

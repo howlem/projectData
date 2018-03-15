@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.7)  6 MAR 2018 09:06
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500 64-bit) (preloaded format=pdflatex 2018.1.7)  14 MAR 2018 17:35
 entering extended mode
 **./EXEC_2.tex
 (EXEC_2.tex
@@ -320,12 +320,12 @@ File: ts1aer.fd
 )
 LaTeX Font Info:    Font shape `TS1/aer/m/n' in size <10> not available
 (Font)              Font shape `TS1/cmr/m/n' tried instead on input line 29.
-<EXEC_2-loc.pdf, id=2, pagebox=cropbox, 433.62pt x 433.62pt>
-File: EXEC_2-loc.pdf Graphic file (type pdf)
-<use EXEC_2-loc.pdf>
-Package pdftex.def Info: EXEC_2-loc.pdf  used on input line 47. on input line 4
-7.
-Package pdftex.def Info: Requested size: 276.00105pt x 276.0139pt on input line
+<EXEC_2-location.pdf, id=2, pagebox=cropbox, 4336.2pt x 2890.8pt>
+File: EXEC_2-location.pdf Graphic file (type pdf)
+<use EXEC_2-location.pdf>
+Package pdftex.def Info: EXEC_2-location.pdf  used on input line 47. on input l
+ine 47.
+Package pdftex.def Info: Requested size: 276.00105pt x 183.9828pt on input line
  47.
 
 
@@ -334,26 +334,26 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 [1
 
 {C:/Users/Mel Howlett/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-[2 <./EXEC_2-loc.pdf>] (EXEC_2.aux) ) 
+[2 <./EXEC_2-location.pdf>] (EXEC_2.aux) ) 
 Here is how much of TeX's memory you used:
- 3129 strings out of 493312
- 45872 string characters out of 3127216
- 96349 words of memory out of 3000000
- 6607 multiletter control sequences out of 15000+200000
+ 3130 strings out of 493312
+ 45909 string characters out of 3127216
+ 97357 words of memory out of 3000000
+ 6608 multiletter control sequences out of 15000+200000
  25904 words of font info for 56 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,9n,25p,275b,270s stack positions out of 5000i,500n,10000p,200000b,50000s
- <C:\Users\Mel Howlett\AppData\Local\MiKTe
-X\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\tcrm1000.pk><C:/Users/Mel Howlett/AppD
-ata/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Use
-rs/Mel Howlett/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
-/cmr10.pfb><C:/Users/Mel Howlett/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/
-public/amsfonts/cm/cmr12.pfb><C:/Users/Mel Howlett/AppData/Local/Programs/MiKTe
-X 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Mel Howlett/AppData/Lo
-cal/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/Mel
- Howlett/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt1
-2.pfb>
-Output written on EXEC_2.pdf (2 pages, 89836 bytes).
+ 41i,9n,25p,375b,270s stack positions out of 5000i,500n,10000p,200000b,50000s
+ <C:\Users\Mel Howlett\AppData\Local\
+MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\tcrm1000.pk><C:/Users/Mel Howlett
+/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C
+:/Users/Mel Howlett/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfon
+ts/cm/cmr10.pfb><C:/Users/Mel Howlett/AppData/Local/Programs/MiKTeX 2.9/fonts/t
+ype1/public/amsfonts/cm/cmr12.pfb><C:/Users/Mel Howlett/AppData/Local/Programs/
+MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/Mel Howlett/AppDa
+ta/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/User
+s/Mel Howlett/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
+cmtt12.pfb>
+Output written on EXEC_2.pdf (2 pages, 113424 bytes).
 PDF statistics:
  46 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

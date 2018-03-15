@@ -29,7 +29,7 @@ faostat=read.csv("https://github.com/howlem/projectData/raw/master/Production_Cr
 The dataset contains the followng three variables:
 %bullets
 \begin{itemize}
-  \item \emph{Yield.} The harvested production per unit of harvested area for crop products (in hectogramme (100 grammes) per hectare). 
+  \item \emph{Yield.} The harvested production per unit of harvested area for crop products (in hectogramme per hectare). 
   \item \emph{Production.} The amount, in tonnes, of crops produced in the year. 
   \item \emph{Area Harvested.} The area from which a crop is gathered (in hectares). 
 \end{itemize}
@@ -75,7 +75,7 @@ head(combinedYPAH)
 @
 
 \section{Maps}\label{maps}
-On the following page is a map that shows yield data by country in Africa for 2016. Production and area harvested are missing data for too many countries to be useful, so we have not included maps for them. 
+The figure on the following page shows yield (panel 1), production (panel 2), and area harvested (panel 3) data by country in Africa for 2016. Notice that the production and area harvested maps are missing quite a bit of data because FAO was unable to provide this data. 
 <<echo=FALSE,results=hide>>=
 ##MAP DATA##
 #get zip file from github
@@ -136,9 +136,10 @@ names(testMap)
 
 \begin{figure}[h]
 \centering
-<<loc, fig=TRUE,results=hide,echo=FALSE>>=
+<<location,echo=FALSE, fig=TRUE,eval=TRUE,width=60, height=40>>=
+par(mfrow=c(1,3))
 varToPlot=testMap$TtY2016
-numberOfClasses = 3
+numberOfClasses = 4
 colorForScale='YlGnBu'
 colors = brewer.pal(numberOfClasses, colorForScale)
 intervals <- classIntervals(varToPlot, numberOfClasses, 
@@ -146,8 +147,8 @@ intervals <- classIntervals(varToPlot, numberOfClasses,
                             dataPrecision=2)
 colorPallette <- findColours(intervals, colors)
 
-legendText="Total Yield of all crops in 2016"
-shrinkLegend=.5
+legendText="Total Yield of All Crops in 2016"
+shrinkLegend=8
 title="Total 2016 Yield by Country in Africa"
 
 
@@ -158,9 +159,56 @@ legend('topright', legend = names(attr(colorPallette, "table")),
       bty = "n",
       title=legendText)
 
+varToPlot=testMap$TtP2016
+numberOfClasses = 4
+colorForScale='YlGnBu'
+colors = brewer.pal(numberOfClasses, colorForScale)
+intervals <- classIntervals(varToPlot, numberOfClasses, 
+                            style = "quantile",
+                            dataPrecision=2)
+colorPallette <- findColours(intervals, colors)
+
+legendText="Total Production of All Crops in 2016"
+shrinkLegend=8
+title="Total 2016 Production by Country in Africa"
+
+
+plot(worldMap,col='gray',main=title)
+plot(testMap,col=colorPallette,add=T)
+legend('topright', legend = names(attr(colorPallette, "table")),
+      fill = attr(colorPallette, "palette"), cex = shrinkLegend,
+      bty = "n",
+      title=legendText)
+
+varToPlot=testMap$TAH2016
+numberOfClasses = 4
+colorForScale='YlGnBu'
+colors = brewer.pal(numberOfClasses, colorForScale)
+intervals <- classIntervals(varToPlot, numberOfClasses, 
+                            style = "quantile",
+                            dataPrecision=2)
+colorPallette <- findColours(intervals, colors)
+
+legendText="Total Area Harvested of All Crops in 2016"
+shrinkLegend=8
+title="Total 2016 Area Harvested by Country in Africa"
+
+
+plot(worldMap,col='gray',main=title)
+plot(testMap,col=colorPallette,add=T)
+legend('topright', legend = names(attr(colorPallette, "table")),
+      fill = attr(colorPallette, "palette"), cex = shrinkLegend,
+      bty = "n",
+      title=legendText)
+
 @
-\caption{Total 2016 Yield by Country in Africa}
+\caption{Total 2016 Yield, Production, and Area Harvested by Country}
 \label{region_maps}
 \end{figure}
+
+\section{Conclusion and Next Steps}\label{next steps}
+While my initial goal was to explore agricultural data in Africa, my ability to draw conclusions was limited by insufficient data. The substantial amount of missing data makes clear that insufficient data exists on agricultural productivity in Africa. Exploratory Google searches indicate that this is the case for many different kinds of data in the region. 
+
+Given this, a logical next step is to advocate for increased funding for and prioritization of data collection in Africa, particularly data measuring agricultural productivity. 
 
 \end{document}
